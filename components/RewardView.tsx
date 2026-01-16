@@ -15,7 +15,7 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset, capturedImage }
   const [imageLoaded, setImageLoaded] = useState(false);
   
   // URL Assoluto stabile per il premio
-  const balloonDogImageUrl = "https://images.unsplash.com/photo-1590074259301-443315758071?q=80&w=800&auto=format&fit=crop"; 
+  const balloonDogImageUrl = "https://roccafunfactory.com/wp-content/uploads/2026/01/balloon-dog.jpg"; 
   const tags = "@roccafunfactory #roccafunfactory #Spielwarenmesse2026 #GoldenBalloonDog";
 
   const confettiPieces = useMemo(() => {
