@@ -20,7 +20,7 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart }) => {
         </div>
         
         <div className="w-full max-w-[280px] space-y-8 pb-6">
-          <p className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 mb-6">3 Semplici Step</p>
+          <p className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 mb-6">Come partecipare</p>
           
           <ul className="space-y-7">
             <li className="flex items-start space-x-5">
@@ -40,11 +40,11 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart }) => {
               </p>
             </li>
             <li className="flex items-start space-x-5">
-              <div className="bg-pink-500 rounded-full p-1.5 mt-0.5 shadow-lg flex-shrink-0">
+              <div className="bg-yellow-400 rounded-full p-1.5 mt-0.5 shadow-lg flex-shrink-0">
                 <span className="text-white text-[10px] font-black w-4 h-4 flex items-center justify-center">3</span>
               </div>
               <p className="text-gray-800 font-bold text-base leading-snug">
-                Posta sul tuo social preferito
+                Condividi e ritira il premio!
               </p>
             </li>
           </ul>

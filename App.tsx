@@ -4,7 +4,6 @@ import { WelcomeView } from './components/WelcomeView';
 import { CameraView } from './components/CameraView';
 import { PreviewView } from './components/PreviewView';
 import { CopyTagsView } from './components/CopyTagsView';
-import { SocialShareView } from './components/SocialShareView';
 import { RewardView } from './components/RewardView';
 import { StepIndicator } from './components/StepIndicator';
 import { AppStep } from './types';
@@ -23,10 +22,7 @@ const App: React.FC = () => {
   };
 
   const handleTagsCopied = () => {
-    setStep(AppStep.STEP3_SHARE);
-  };
-
-  const handleShareComplete = () => {
+    // Passa direttamente alla vittoria dopo i tag, saltando lo step di selezione social
     setStep(AppStep.WIN);
   };
 
@@ -40,8 +36,7 @@ const App: React.FC = () => {
       case AppStep.STEP1_CAMERA:
       case AppStep.STEP1_PREVIEW: return 1;
       case AppStep.STEP2_TAGS: return 2;
-      case AppStep.STEP3_SHARE: return 3;
-      case AppStep.WIN: return 4;
+      case AppStep.WIN: return 3;
       default: return 0;
     }
   };
@@ -77,14 +72,6 @@ const App: React.FC = () => {
           <CopyTagsView 
             onNext={handleTagsCopied} 
             onBack={() => setStep(AppStep.STEP1_PREVIEW)} 
-          />
-        )}
-
-        {step === AppStep.STEP3_SHARE && image && (
-          <SocialShareView 
-            image={image} 
-            onComplete={handleShareComplete} 
-            onBack={() => setStep(AppStep.STEP2_TAGS)}
           />
         )}
         
