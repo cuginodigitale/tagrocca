@@ -88,8 +88,8 @@ const App: React.FC = () => {
           />
         )}
         
-        {step === AppStep.WIN && (
-          <RewardView onReset={handleReset} />
+        {step === AppStep.WIN && image && (
+          <RewardView onReset={handleReset} capturedImage={image} />
         )}
       </main>
     </div>
