@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { CheckCircle2, Home, Sparkles, Trophy, Award, Star } from 'lucide-react';
+import { Home, Sparkles, Trophy, Award, Star } from 'lucide-react';
 
 interface RewardViewProps {
   onReset: () => void;
@@ -11,6 +11,9 @@ const PIECE_COUNT = 100;
 
 export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   const [showConfetti, setShowConfetti] = useState(false);
+  
+  // Percorso locale dell'immagine del Balloon Dog nella cartella assets.
+  const balloonDogImageUrl = "assets/balloon-dog.jpg"; 
 
   const confettiPieces = useMemo(() => {
     return Array.from({ length: PIECE_COUNT }).map((_, i) => ({
@@ -64,59 +67,37 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
             <h1 className="text-3xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
                 Complimenti!
             </h1>
-            <p className="text-xl font-bold text-blue-600">Ecco il tuo Balloon Dog</p>
+            <p className="text-xl font-bold text-blue-600">Il tuo Balloon Dog</p>
         </div>
 
-        {/* Prize Image Visual - Representation of the Gold Balloon Dog */}
+        {/* Prize Image Visual - Local Image from assets folder */}
         <div className="mb-10 relative">
-          <div className="w-64 h-64 bg-gradient-to-br from-yellow-300 via-yellow-100 to-yellow-500 rounded-[4rem] flex items-center justify-center relative shadow-[0_30px_60px_rgba(234,179,8,0.4)] border-8 border-white group">
+          <div className="w-64 h-64 bg-white rounded-[4rem] flex items-center justify-center relative shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-8 border-white group overflow-hidden">
             
-            {/* Centered stylized Balloon Dog */}
-            <div className="relative transform group-hover:scale-110 transition-transform duration-500">
-               {/* This SVG mimics the shape of the balloon dog from the provided image */}
-               <svg viewBox="0 0 100 100" className="w-48 h-48 drop-shadow-2xl">
-                 <defs>
-                   <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" style={{stopColor: '#f9e498'}} />
-                     <stop offset="50%" style={{stopColor: '#d4af37'}} />
-                     <stop offset="100%" style={{stopColor: '#b8860b'}} />
-                   </linearGradient>
-                   <filter id="glow">
-                     <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-                     <feMerge>
-                       <feMergeNode in="coloredBlur"/>
-                       <feMergeNode in="SourceGraphic"/>
-                     </feMerge>
-                   </filter>
-                 </defs>
-                 {/* Body Parts */}
-                 <ellipse cx="50" cy="55" rx="15" ry="10" fill="url(#gold)" /> {/* Body */}
-                 <ellipse cx="30" cy="40" rx="12" ry="10" fill="url(#gold)" transform="rotate(-30 30 40)" /> {/* Head */}
-                 <circle cx="20" cy="42" r="3" fill="url(#gold)" /> {/* Nose */}
-                 <ellipse cx="38" cy="30" rx="6" ry="12" fill="url(#gold)" transform="rotate(10 38 30)" /> {/* Ear 1 */}
-                 <ellipse cx="32" cy="28" rx="6" ry="12" fill="url(#gold)" transform="rotate(-10 32 28)" /> {/* Ear 2 */}
-                 <ellipse cx="45" cy="72" rx="5" ry="12" fill="url(#gold)" /> {/* Front Leg 1 */}
-                 <ellipse cx="55" cy="72" rx="5" ry="12" fill="url(#gold)" /> {/* Front Leg 2 */}
-                 <ellipse cx="70" cy="65" rx="5" ry="12" fill="url(#gold)" transform="rotate(20 70 65)" /> {/* Back Leg 1 */}
-                 <ellipse cx="78" cy="62" rx="5" ry="12" fill="url(#gold)" transform="rotate(30 78 62)" /> {/* Back Leg 2 */}
-                 <ellipse cx="85" cy="45" rx="8" ry="4" fill="url(#gold)" transform="rotate(-45 85 45)" /> {/* Tail */}
-               </svg>
-              
-              <Sparkles className="absolute -top-6 -right-2 w-10 h-10 text-white animate-pulse" />
-              <div className="absolute -bottom-2 -left-4 bg-gray-900 text-white text-[9px] font-black px-4 py-2 rounded-xl shadow-2xl rotate-[-5deg] uppercase tracking-widest border border-white/20">
-                Gold Edition
-              </div>
+            <img 
+              src={balloonDogImageUrl} 
+              alt="Premio Balloon Dog" 
+              className="w-full h-full object-contain p-4 transform group-hover:scale-110 transition-transform duration-500"
+              onError={(e) => {
+                // Fallback in caso l'immagine non sia ancora stata caricata nella cartella assets
+                e.currentTarget.src = "https://via.placeholder.com/400?text=Balloon+Dog+Gold";
+                e.currentTarget.className = "w-full h-full object-contain p-8 opacity-50 grayscale";
+              }}
+            />
+            
+            <Sparkles className="absolute -top-6 -right-2 w-10 h-10 text-yellow-400 animate-pulse" />
+            <div className="absolute -bottom-2 -left-4 bg-gray-900 text-white text-[9px] font-black px-4 py-2 rounded-xl shadow-2xl rotate-[-5deg] uppercase tracking-widest border border-white/20">
+              Gold Edition
             </div>
           </div>
           
-          {/* Decorative elements */}
-          <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-yellow-200/30 rounded-full blur-3xl"></div>
+          <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
         </div>
 
         {/* Instructions Block */}
         <div className="bg-gray-50 border-2 border-gray-100 p-8 rounded-[3rem] w-full mb-10 shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4">
-             <Trophy className="w-12 h-12 text-yellow-500/10" />
+             <Trophy className="w-12 h-12 text-blue-600/5" />
           </div>
           
           <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest mb-4 flex items-center justify-center space-x-2">
@@ -126,11 +107,11 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
           
           <div className="space-y-4">
               <p className="text-gray-700 font-bold text-lg leading-tight">
-                Mostra la condivisione social al nostro team per ricevere il tuo premio fisico!
+                Mostra la condivisione social al nostro team e chiedi il tuo premio fisico!
               </p>
               <div className="h-px bg-gray-200 w-12 mx-auto"></div>
               <p className="text-gray-400 text-[11px] font-medium uppercase tracking-wider">
-                Siamo allo stand Rocca Fun Factory <br/>
+                Rocca Fun Factory <br/>
                 Spielwarenmesse 2026
               </p>
           </div>
@@ -140,15 +121,11 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
         <div className="w-full space-y-4">
           <button 
             onClick={onReset}
-            className="w-full bg-gray-900 hover:bg-black text-white font-black py-5 rounded-2xl shadow-2xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest text-sm"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl shadow-2xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest text-sm"
           >
             <Home className="w-5 h-5" />
             <span>Fatto</span>
           </button>
-          
-          <p className="text-blue-600 text-[9px] font-black uppercase tracking-[0.4em] opacity-50">
-            Grazie per aver partecipato!
-          </p>
         </div>
       </div>
     </div>
