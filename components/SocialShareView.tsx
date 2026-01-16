@@ -18,25 +18,31 @@ export const SocialShareView: React.FC<SocialShareViewProps> = ({ onComplete, on
         </div>
 
         <div className="text-center space-y-3">
-          <h2 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Tutto Pronto!</h2>
+          <h2 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Ci siamo quasi!</h2>
           <p className="text-sm font-bold text-gray-400 leading-relaxed max-w-[240px] mx-auto">
-            Ora non resta che pubblicare la tua foto sui social.
+            Stai per pubblicare la tua foto. Ricorda che dovrai incollare i tag che hai copiato.
           </p>
         </div>
 
         {/* Icone Social in linea e minimali */}
-        <div className="flex items-center space-x-6">
-          <div className="p-4 bg-gray-50 rounded-2xl text-pink-500 border border-gray-100 shadow-sm">
-            <Instagram className="w-8 h-8" />
+        <div className="flex items-center space-x-8">
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-gray-50 rounded-2xl text-pink-500 border border-gray-100 shadow-sm">
+              <Instagram className="w-8 h-8" />
+            </div>
+            <span className="text-[9px] font-black uppercase text-gray-400 tracking-widest">Instagram</span>
           </div>
-          <div className="p-4 bg-gray-50 rounded-2xl text-[#1877F2] border border-gray-100 shadow-sm">
-            <Facebook className="w-8 h-8" />
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-gray-50 rounded-2xl text-[#1877F2] border border-gray-100 shadow-sm">
+              <Facebook className="w-8 h-8" />
+            </div>
+            <span className="text-[9px] font-black uppercase text-gray-400 tracking-widest">Facebook</span>
           </div>
         </div>
 
         <div className="text-center px-4">
-          <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">
-            Premi il tasto sotto per procedere al ritiro
+          <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] leading-loose">
+            Tutto è pronto per la pubblicazione.<br/>Procedi per riscattare il premio.
           </p>
         </div>
       </div>
@@ -44,17 +50,17 @@ export const SocialShareView: React.FC<SocialShareViewProps> = ({ onComplete, on
       <div className="space-y-3 pt-6">
         <button 
           onClick={onComplete}
-          className="w-full bg-blue-600 text-white font-black py-5 rounded-[2rem] shadow-2xl shadow-blue-100 transition-all active:scale-95 text-lg flex items-center justify-center space-x-3 uppercase tracking-widest"
+          className="w-full bg-blue-600 text-white font-black py-5 rounded-[1.5rem] shadow-2xl shadow-blue-100 transition-all active:scale-95 text-lg flex items-center justify-center space-x-3 uppercase tracking-widest"
         >
-          <span>Pronto per condividere</span>
+          <span>Pronto! Mostrami il premio</span>
           <ArrowRight className="w-6 h-6" />
         </button>
         <button 
           onClick={onBack}
-          className="w-full text-gray-300 font-black py-2 uppercase text-[9px] tracking-widest flex items-center justify-center space-x-2"
+          className="w-full text-gray-300 font-black py-2 uppercase text-[10px] tracking-widest flex items-center justify-center space-x-2"
         >
           <ChevronLeft className="w-3 h-3" />
-          <span>Torna ai tag</span>
+          <span>Controlla i tag</span>
         </button>
       </div>
     </div>
