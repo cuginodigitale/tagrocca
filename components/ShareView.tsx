@@ -1,17 +1,18 @@
 
 import React, { useState } from 'react';
-import { Copy, Facebook, Instagram, Linkedin, ChevronLeft, Check, Share2, Info } from 'lucide-react';
+import { Copy, Facebook, Instagram, ChevronLeft, Check, Share2, Info } from 'lucide-react';
 
 interface ShareViewProps {
   image: string;
-  tags: string;
   onComplete: () => void;
   onBack: () => void;
 }
 
-export const ShareView: React.FC<ShareViewProps> = ({ image, tags, onComplete, onBack }) => {
+export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack }) => {
   const [copyStatus, setCopyStatus] = useState(false);
-  const fullTagString = tags;
+  const companyTag = "@roccafunfactory";
+  const hashtags = "#roccafunfactory #Spielwarenmesse2026";
+  const fullTagString = `${companyTag} ${hashtags}`;
   
   const handleCopy = () => {
     navigator.clipboard.writeText(fullTagString);
@@ -29,7 +30,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, tags, onComplete, o
         await navigator.share({
           files: [file],
           title: 'Rocca Fun Factory Challenge',
-          text: `Incolla qui i tag dello stand!`,
+          text: `Incolla qui i tag: ${fullTagString}`,
         });
       } else {
         alert(`Per condividere su ${platform}:\n1. Salva la foto\n2. Apri ${platform}\n3. Incolla i tag: ${fullTagString}`);
@@ -53,22 +54,22 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, tags, onComplete, o
       <div className="flex-1 overflow-y-auto px-8 py-4 space-y-6 flex flex-col">
         <div className="text-center space-y-2 shrink-0">
           <h3 className="text-xl font-black text-gray-900 leading-tight">
-            Usa i <span className="text-blue-600">tag ufficiali</span> <br/>dallo stand!
+            Usa i nostri <span className="text-blue-600">tag ufficiali</span> <br/>per vincere!
           </h3>
           <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-            Ecco i parametri attivati dal QR:
+            Segui questi due semplici passaggi
           </p>
         </div>
 
         <div className="space-y-3">
           <div className="flex items-center space-x-3">
             <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-sm">1</span>
-            <p className="text-sm font-black text-gray-800 uppercase tracking-tight">Copia i tag personalizzati</p>
+            <p className="text-sm font-black text-gray-800 uppercase tracking-tight">Copia i tag ufficiali</p>
           </div>
           
           <div className="relative group">
             <div className="bg-gray-50 border-2 border-gray-100 rounded-[1.5rem] p-5 pr-16">
-              <p className="text-sm font-bold text-gray-700 leading-relaxed italic truncate">
+              <p className="text-sm font-bold text-gray-700 leading-relaxed italic">
                 {fullTagString}
               </p>
             </div>
@@ -84,7 +85,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, tags, onComplete, o
         <div className="space-y-3">
           <div className="flex items-center space-x-3">
             <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-sm">2</span>
-            <p className="text-sm font-black text-gray-800 uppercase tracking-tight">Posta sul tuo Social</p>
+            <p className="text-sm font-black text-gray-800 uppercase tracking-tight">Incolla nel tuo Social</p>
           </div>
           
           <div className="grid grid-cols-1 gap-3">
@@ -103,7 +104,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, tags, onComplete, o
 
         <div className="bg-yellow-50 p-4 rounded-2xl border border-yellow-100">
           <p className="text-[10px] font-bold text-yellow-800 leading-snug text-center italic">
-            "Mostra il post allo staff Rocca Fun Factory per ritirare il Golden Balloon Dog!"
+            "Una volta pubblicato, clicca il tasto qui sotto per ritirare il tuo premio allo stand!"
           </p>
         </div>
       </div>
@@ -113,7 +114,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, tags, onComplete, o
           onClick={onComplete}
           className="w-full bg-blue-600 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-100 transition-all active:scale-95 text-lg flex items-center justify-center space-x-4 uppercase tracking-[0.2em]"
         >
-          <span>Conferma Condivisione</span>
+          <span>Fatto! Ho Condiviso</span>
         </button>
       </div>
     </div>

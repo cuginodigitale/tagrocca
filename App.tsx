@@ -1,24 +1,15 @@
 
 import React, { useState } from 'react';
 import { WelcomeView } from './components/WelcomeView';
-import { QRScannerView } from './components/QRScannerView';
 import { CameraView } from './components/CameraView';
 import { PreviewView } from './components/PreviewView';
 import { ShareView } from './components/ShareView';
 import { RewardView } from './components/RewardView';
 import { AppStep } from './types';
 
-const DEFAULT_TAGS = "@roccafunfactory #roccafunfactory #Spielwarenmesse2026";
-
 const App: React.FC = () => {
   const [step, setStep] = useState<AppStep>(AppStep.WELCOME);
   const [image, setImage] = useState<string | null>(null);
-  const [scannedTags, setScannedTags] = useState<string>(DEFAULT_TAGS);
-
-  const handleQRScanned = (tags: string) => {
-    setScannedTags(tags);
-    setStep(AppStep.CAMERA);
-  };
 
   const handleCapture = (imageData: string) => {
     setImage(imageData);
@@ -35,7 +26,6 @@ const App: React.FC = () => {
 
   const handleReset = () => {
     setImage(null);
-    setScannedTags(DEFAULT_TAGS);
     setStep(AppStep.WELCOME);
   };
 
@@ -45,19 +35,11 @@ const App: React.FC = () => {
       
       <main className="flex-1 flex flex-col overflow-hidden relative">
         {step === AppStep.WELCOME && (
-          <WelcomeView onStart={() => setStep(AppStep.SCAN)} />
-        )}
-
-        {step === AppStep.SCAN && (
-          <QRScannerView 
-            onScanned={handleQRScanned} 
-            onBack={() => setStep(AppStep.WELCOME)} 
-            onSkip={() => setStep(AppStep.CAMERA)}
-          />
+          <WelcomeView onStart={() => setStep(AppStep.CAMERA)} />
         )}
         
         {step === AppStep.CAMERA && (
-          <CameraView onCapture={handleCapture} onBack={() => setStep(AppStep.SCAN)} />
+          <CameraView onCapture={handleCapture} onBack={() => setStep(AppStep.WELCOME)} />
         )}
         
         {step === AppStep.PREVIEW && image && (
@@ -71,7 +53,6 @@ const App: React.FC = () => {
         {step === AppStep.SHARE && image && (
           <ShareView 
             image={image} 
-            tags={scannedTags}
             onComplete={handleShareComplete} 
             onBack={() => setStep(AppStep.PREVIEW)}
           />

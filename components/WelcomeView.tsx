@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { QrCode, CheckCircle2 } from 'lucide-react';
+import { Camera, CheckCircle2 } from 'lucide-react';
 
 interface WelcomeViewProps {
   onStart: () => void;
@@ -8,7 +8,7 @@ interface WelcomeViewProps {
 
 export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart }) => {
   return (
-    <div className="flex-1 flex flex-col bg-white animate-fadeIn h-full overflow-hidden">
+    <div className="flex-1 flex flex-col bg-white animate-fadeIn h-full overflow-hidden relative">
       <div className="flex-1 overflow-y-auto px-8 pt-12 flex flex-col items-center">
         
         <div className="text-center mb-10 shrink-0">
@@ -23,10 +23,10 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart }) => {
           <ul className="space-y-7">
             <li className="flex items-start space-x-5">
               <div className="bg-gray-900 rounded-full p-1.5 mt-0.5 shadow-lg flex-shrink-0">
-                <QrCode className="w-4 h-4 text-white" />
+                <Camera className="w-4 h-4 text-white" />
               </div>
               <p className="text-gray-800 font-bold text-base leading-snug">
-                Scansiona il <span className="text-blue-600">QR Code</span> allo stand
+                Scatta una foto creativa allo stand
               </p>
             </li>
             <li className="flex items-start space-x-5">
@@ -34,7 +34,7 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart }) => {
                 <CheckCircle2 className="w-4 h-4 text-white" />
               </div>
               <p className="text-gray-800 font-bold text-base leading-snug">
-                Scatta e condividi con i tag ufficiali
+                Condividi con i tag ufficiali
               </p>
             </li>
             <li className="flex items-start space-x-5">
@@ -55,7 +55,7 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart }) => {
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-200 transition-all active:scale-95 text-xl flex items-center justify-center space-x-4 uppercase tracking-widest"
         >
           <span>Inizia Ora</span>
-          <QrCode className="w-7 h-7" />
+          <Camera className="w-7 h-7" />
         </button>
       </div>
     </div>
