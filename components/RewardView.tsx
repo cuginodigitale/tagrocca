@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { Home, Sparkles, Trophy, Award, Star } from 'lucide-react';
+import { Home, Sparkles, Trophy, Award, Star, Loader2 } from 'lucide-react';
 
 interface RewardViewProps {
   onReset: () => void;
@@ -11,9 +11,10 @@ const PIECE_COUNT = 100;
 
 export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   const [showConfetti, setShowConfetti] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   
-  // Percorso locale dell'immagine del Balloon Dog nella cartella assets.
-  const balloonDogImageUrl = "assets/balloon-dog.jpg"; 
+  // Utilizziamo ./assets/ per specificare il percorso relativo dalla root
+  const balloonDogImageUrl = "./assets/balloon-dog.jpg"; 
 
   const confettiPieces = useMemo(() => {
     return Array.from({ length: PIECE_COUNT }).map((_, i) => ({
@@ -74,13 +75,22 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
         <div className="mb-10 relative">
           <div className="w-64 h-64 bg-white rounded-[4rem] flex items-center justify-center relative shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-8 border-white group overflow-hidden">
             
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+              </div>
+            )}
+            
             <img 
               src={balloonDogImageUrl} 
               alt="Premio Balloon Dog" 
-              className="w-full h-full object-contain p-4 transform group-hover:scale-110 transition-transform duration-500"
+              onLoad={() => setImageLoaded(true)}
+              className={`w-full h-full object-contain p-4 transform group-hover:scale-110 transition-all duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
               onError={(e) => {
-                // Carica un placeholder dorato se il file locale non è ancora disponibile
+                // Fallback definitivo se l'immagine locale fallisce
+                console.error("Errore nel caricamento dell'immagine locale assets/balloon-dog.jpg");
                 e.currentTarget.src = "https://images.unsplash.com/photo-1590074259301-443315758071?q=80&w=600&auto=format&fit=crop";
+                setImageLoaded(true);
               }}
             />
             
