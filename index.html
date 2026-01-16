@@ -13,30 +13,21 @@
             background-color: #ffffff;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Blocca scrolling esterno */
+            overflow: hidden;
             height: 100vh;
             height: -webkit-fill-available;
             -webkit-tap-highlight-color: transparent;
         }
-
-        html {
-            height: -webkit-fill-available;
-        }
-        
-        #root {
-            height: 100%;
-        }
-        
+        html { height: -webkit-fill-available; }
+        #root { height: 100%; }
         @keyframes confetti-fall {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
-
         @keyframes confetti-sway {
             0%, 100% { margin-left: 0; }
             50% { margin-left: 50px; }
         }
-
         .confetti {
             position: absolute;
             top: -10px;
@@ -45,26 +36,26 @@
             pointer-events: none;
             z-index: 100;
         }
-
-        .animate-fadeIn {
-            animation: fadeIn 0.4s ease-out forwards;
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+        .animate-bounceIn { animation: bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.85); } 100% { opacity: 1; transform: scale(1); } }
+        button:active { transform: scale(0.97); }
+        
+        .qr-scanner-line {
+            height: 2px;
+            background: #3b82f6;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 2s linear infinite;
+            box-shadow: 0 0 15px #3b82f6;
         }
-        .animate-bounceIn {
-            animation: bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.85); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* Ottimizzazione pulsanti per touch */
-        button:active {
-            transform: scale(0.97);
+        @keyframes scan {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
         }
     </style>
 <script type="importmap">
@@ -74,7 +65,8 @@
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/",
     "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "jsqr": "https://esm.sh/jsqr@1.4.0"
   }
 }
 </script>
