@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Copy, Facebook, Instagram, Linkedin, ChevronLeft, Check, Download } from 'lucide-react';
+import { Copy, Facebook, Instagram, Linkedin, ChevronLeft, Check, Share2, Download } from 'lucide-react';
 
 interface ShareViewProps {
   image: string;
@@ -12,6 +12,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
   const [copyStatus, setCopyStatus] = useState(false);
   const companyTag = "@roccafunfactory";
   const hashtags = "#roccafunfactory #Spielwarenmesse2026";
+  const fullMessage = `Guarda la mia foto allo stand di ${companyTag}! ${hashtags}`;
   
   const handleCopy = () => {
     navigator.clipboard.writeText(`${companyTag} ${hashtags}`);
@@ -19,109 +20,114 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
     setTimeout(() => setCopyStatus(false), 2000);
   };
 
-  const handleSocialShare = async (platform: 'fb' | 'ig' | 'li') => {
-    // Web Share API è il modo migliore per condividere file immagine su mobile
+  const handleShare = async () => {
     try {
       const response = await fetch(image);
       const blob = await response.blob();
       const file = new File([blob], 'rocca-fun-factory.jpg', { type: 'image/jpeg' });
 
+      // La Web Share API permette di condividere FILE e TESTO (tag) insieme
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
           title: 'Rocca Fun Factory',
-          text: `Guarda la mia foto allo stand di ${companyTag}! ${hashtags}`,
+          text: fullMessage,
         });
       } else {
-        // Fallback per desktop o browser limitati
-        const link = document.createElement('a');
-        link.href = image;
-        link.download = 'rocca-fun-photo.jpg';
-        link.click();
-        alert("Immagine salvata! Caricala manualmente su " + platform.toUpperCase() + " taggando " + companyTag);
+        // Fallback: Download immagine + Copia tag
+        handleDownload();
+        handleCopy();
+        alert("Condivisione automatica non supportata. L'immagine è stata salvata e i tag copiati negli appunti. Caricala ora sul tuo social preferito!");
       }
     } catch (err) {
       console.error("Share error", err);
     }
   };
 
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'rocca-fun-photo.jpg';
+    link.click();
+  };
+
   return (
-    <div className="flex-1 flex flex-col bg-white animate-fadeIn overflow-hidden">
-      {/* Header */}
-      <div className="p-6 flex items-center shrink-0">
+    <div className="flex-1 flex flex-col bg-white animate-fadeIn overflow-hidden h-full">
+      {/* Header compatto */}
+      <div className="px-6 pt-6 pb-2 flex items-center shrink-0">
         <button onClick={onBack} className="p-2 -ml-2 text-gray-400">
           <ChevronLeft className="w-6 h-6" />
         </button>
         <h2 className="flex-1 text-center font-black text-sm uppercase tracking-widest text-gray-900 mr-6">
-          Condividi e Vinci
+          Condividi il tuo Post
         </h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-8 pb-8 space-y-8">
-        {/* Step 1: Copia Tag */}
-        <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black">1</div>
-            <p className="text-[10px] font-black uppercase text-gray-400 tracking-wider">Copia il Tag</p>
+      <div className="flex-1 overflow-y-auto px-8 py-4 space-y-6">
+        {/* Box Tag - Sempre utile come riferimento */}
+        <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-100/50 flex items-center justify-between">
+          <div className="overflow-hidden">
+            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Tag negli appunti:</p>
+            <p className="text-xs font-bold text-gray-800 truncate">{companyTag} {hashtags}</p>
           </div>
-          <div className="bg-gray-50 p-5 rounded-3xl border border-gray-100 flex items-center justify-between">
-            <p className="text-sm font-bold text-gray-800">{companyTag} <span className="text-gray-400 text-xs">{hashtags}</span></p>
-            <button 
-              onClick={handleCopy}
-              className={`p-3 rounded-2xl transition-all ${copyStatus ? 'bg-green-500 text-white' : 'bg-white text-blue-600 border border-blue-50'}`}
-            >
-              {copyStatus ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-            </button>
-          </div>
+          <button 
+            onClick={handleCopy}
+            className={`shrink-0 ml-4 p-2.5 rounded-xl transition-all ${copyStatus ? 'bg-green-500 text-white' : 'bg-white text-blue-600 border border-blue-100'}`}
+          >
+            {copyStatus ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+          </button>
         </div>
 
-        {/* Step 2: Scegli Social */}
+        {/* Pulsante Principale di Condivisione (Simultanea) */}
         <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black">2</div>
-            <p className="text-[10px] font-black uppercase text-gray-400 tracking-wider">Scegli dove pubblicare</p>
-          </div>
-          
-          <div className="grid grid-cols-1 gap-3">
-            <button 
-              onClick={() => handleSocialShare('ig')}
-              className="flex items-center p-5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl text-white shadow-lg active:scale-95 transition-all"
-            >
-              <Instagram className="w-6 h-6 mr-4" />
-              <span className="font-black uppercase text-xs tracking-[0.2em]">Instagram</span>
-            </button>
-            
-            <button 
-              onClick={() => handleSocialShare('fb')}
-              className="flex items-center p-5 bg-[#1877F2] rounded-3xl text-white shadow-lg active:scale-95 transition-all"
-            >
-              <Facebook className="w-6 h-6 mr-4" />
-              <span className="font-black uppercase text-xs tracking-[0.2em]">Facebook</span>
-            </button>
-            
-            <button 
-              onClick={() => handleSocialShare('li')}
-              className="flex items-center p-5 bg-[#0077B5] rounded-3xl text-white shadow-lg active:scale-95 transition-all"
-            >
-              <Linkedin className="w-6 h-6 mr-4" />
-              <span className="font-black uppercase text-xs tracking-[0.2em]">LinkedIn</span>
-            </button>
-          </div>
+          <p className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] text-center">Invia foto e tag insieme</p>
+          <button 
+            onClick={handleShare}
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white py-6 rounded-3xl font-black uppercase text-sm tracking-[0.2em] shadow-xl shadow-blue-100 flex items-center justify-center space-x-3 active:scale-95 transition-all"
+          >
+            <Share2 className="w-6 h-6" />
+            <span>Condividi Ora</span>
+          </button>
         </div>
 
-        {/* Info Extra */}
-        <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-100">
-           <p className="text-[11px] font-bold text-yellow-800 leading-relaxed text-center">
-             Ricordati di rendere il post pubblico o di mostrarlo al nostro staff per ricevere il Golden Balloon Dog!
-           </p>
+        {/* Pulsanti Rapidi Social (Fallback/Alternative) */}
+        <div className="grid grid-cols-3 gap-3">
+          <button onClick={handleShare} className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl border border-gray-100 active:scale-90 transition-all">
+            <Instagram className="w-6 h-6 text-pink-500 mb-2" />
+            <span className="text-[8px] font-black uppercase text-gray-400">Insta</span>
+          </button>
+          <button onClick={handleShare} className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl border border-gray-100 active:scale-90 transition-all">
+            <Facebook className="w-6 h-6 text-blue-600 mb-2" />
+            <span className="text-[8px] font-black uppercase text-gray-400">FB</span>
+          </button>
+          <button onClick={handleShare} className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl border border-gray-100 active:scale-90 transition-all">
+            <Linkedin className="w-6 h-6 text-blue-700 mb-2" />
+            <span className="text-[8px] font-black uppercase text-gray-400">LinkedIn</span>
+          </button>
+        </div>
+
+        {/* Opzione Download */}
+        <button 
+          onClick={handleDownload}
+          className="w-full py-4 border-2 border-dashed border-gray-100 rounded-2xl flex items-center justify-center space-x-2 text-gray-400 hover:text-blue-500 hover:border-blue-100 transition-colors"
+        >
+          <Download className="w-4 h-4" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">Salva nel rullino</span>
+        </button>
+
+        {/* Info Box */}
+        <div className="bg-yellow-50 p-4 rounded-2xl border border-yellow-100">
+          <p className="text-[10px] font-bold text-yellow-800 leading-relaxed text-center italic">
+            "Assicurati di includere il tag @roccafunfactory per permetterci di convalidare la tua vincita!"
+          </p>
         </div>
       </div>
 
-      {/* Footer Button */}
-      <div className="p-8 pb-10 bg-white border-t border-gray-50 shrink-0">
+      {/* Footer Button - Step Finale */}
+      <div className="p-8 bg-white border-t border-gray-50 shrink-0">
         <button 
           onClick={onComplete}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-200 transition-all active:scale-95 text-xl flex items-center justify-center space-x-4 uppercase tracking-widest"
+          className="w-full bg-gray-900 text-white font-black py-5 rounded-[2rem] shadow-xl active:scale-95 transition-all text-xs flex items-center justify-center space-x-4 uppercase tracking-[0.2em]"
         >
           <span>Fatto! Ho Condiviso</span>
         </button>
