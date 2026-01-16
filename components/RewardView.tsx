@@ -33,7 +33,7 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden bg-white">
-      {/* Background decoration */}
+      {/* Decorazioni di sfondo */}
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none z-0 overflow-hidden">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600 rounded-full blur-[100px]"></div>
         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-400 rounded-full blur-[100px]"></div>
@@ -59,10 +59,10 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
       )}
 
       <div className="z-10 animate-bounceIn w-full flex flex-col items-center max-w-sm">
-        {/* Success Header */}
+        {/* Intestazione Successo */}
         <div className="mb-6 space-y-2">
             <div className="flex justify-center space-x-1 mb-2">
-                {[1,2,3].map(i => <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />)}
+                {[1,2,3].map(i => <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400 animate-pulse" />)}
             </div>
             <h1 className="text-3xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
                 Complimenti!
@@ -70,7 +70,7 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
             <p className="text-xl font-bold text-blue-600">Il tuo Balloon Dog</p>
         </div>
 
-        {/* Prize Image Visual - Local Image from assets folder */}
+        {/* Visualizzazione Foto Premio */}
         <div className="mb-10 relative">
           <div className="w-64 h-64 bg-white rounded-[4rem] flex items-center justify-center relative shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-8 border-white group overflow-hidden">
             
@@ -79,9 +79,8 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
               alt="Premio Balloon Dog" 
               className="w-full h-full object-contain p-4 transform group-hover:scale-110 transition-transform duration-500"
               onError={(e) => {
-                // Fallback in caso l'immagine non sia ancora stata caricata nella cartella assets
-                e.currentTarget.src = "https://via.placeholder.com/400?text=Balloon+Dog+Gold";
-                e.currentTarget.className = "w-full h-full object-contain p-8 opacity-50 grayscale";
+                // Carica un placeholder dorato se il file locale non è ancora disponibile
+                e.currentTarget.src = "https://images.unsplash.com/photo-1590074259301-443315758071?q=80&w=600&auto=format&fit=crop";
               }}
             />
             
@@ -94,7 +93,7 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
         </div>
 
-        {/* Instructions Block */}
+        {/* Blocco Istruzioni Stand */}
         <div className="bg-gray-50 border-2 border-gray-100 p-8 rounded-[3rem] w-full mb-10 shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4">
              <Trophy className="w-12 h-12 text-blue-600/5" />
@@ -117,14 +116,14 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Bottone di chiusura */}
         <div className="w-full space-y-4">
           <button 
             onClick={onReset}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl shadow-2xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest text-sm"
           >
             <Home className="w-5 h-5" />
-            <span>Fatto</span>
+            <span>Torna alla Home</span>
           </button>
         </div>
       </div>

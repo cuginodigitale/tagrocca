@@ -1,0 +1,1 @@
+In questa cartella 'assets' devi caricare il file 'balloon-dog.jpg' per visualizzare la foto reale del premio nell'app.
