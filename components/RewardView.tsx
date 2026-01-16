@@ -13,8 +13,8 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   
-  // URL Assoluto per garantire il caricamento immediato
-  const balloonDogImageUrl = "https://roccafunfactory.com/wp-content/uploads/2026/01/balloon-dog.jpg"; 
+  // URL Assoluto stabile per il premio
+  const balloonDogImageUrl = "https://images.unsplash.com/photo-1590074259301-443315758071?q=80&w=800&auto=format&fit=crop"; 
 
   const confettiPieces = useMemo(() => {
     return Array.from({ length: PIECE_COUNT }).map((_, i) => ({
@@ -66,14 +66,14 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
                 {[1,2,3].map(i => <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400 animate-pulse" />)}
             </div>
             <h1 className="text-3xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-                Complimenti!
+                Ottimo Lavoro!
             </h1>
-            <p className="text-xl font-bold text-blue-600">Il tuo Balloon Dog</p>
+            <p className="text-xl font-bold text-blue-600">Ecco il tuo premio</p>
         </div>
 
         {/* Visualizzazione Foto Premio */}
         <div className="mb-10 relative">
-          <div className="w-64 h-64 bg-white rounded-[4rem] flex items-center justify-center relative shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-8 border-white group overflow-hidden">
+          <div className="w-60 h-60 bg-white rounded-[4rem] flex items-center justify-center relative shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-8 border-white group overflow-hidden">
             
             {!imageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
@@ -87,51 +87,46 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
               onLoad={() => setImageLoaded(true)}
               className={`w-full h-full object-contain p-4 transform group-hover:scale-110 transition-all duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
               onError={(e) => {
-                // Se anche l'URL assoluto fallisce, mostriamo un'icona di trofeo come fallback estremo
                 setImageLoaded(true);
               }}
             />
             
-            <Sparkles className="absolute -top-6 -right-2 w-10 h-10 text-yellow-400 animate-pulse" />
-            <div className="absolute -bottom-2 -left-4 bg-gray-900 text-white text-[9px] font-black px-4 py-2 rounded-xl shadow-2xl rotate-[-5deg] uppercase tracking-widest border border-white/20">
-              Gold Edition
-            </div>
+            <Sparkles className="absolute -top-4 -right-2 w-10 h-10 text-yellow-400 animate-pulse" />
           </div>
           
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
         </div>
 
         {/* Blocco Istruzioni Stand */}
-        <div className="bg-gray-50 border-2 border-gray-100 p-8 rounded-[3rem] w-full mb-10 shadow-sm relative overflow-hidden">
+        <div className="bg-gray-50 border-2 border-gray-100 p-8 rounded-[2.5rem] w-full mb-10 shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4">
              <Trophy className="w-12 h-12 text-blue-600/5" />
           </div>
           
-          <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest mb-4 flex items-center justify-center space-x-2">
-            <Award className="w-5 h-5 text-blue-600" />
+          <h3 className="text-xs font-black text-gray-900 uppercase tracking-widest mb-4 flex items-center justify-center space-x-2">
+            <Award className="w-4 h-4 text-blue-600" />
             <span>Ritira allo stand</span>
           </h3>
           
           <div className="space-y-4">
               <p className="text-gray-700 font-bold text-lg leading-tight">
-                Mostra la condivisione social al nostro team e chiedi il tuo premio fisico!
+                Mostra la condivisione al nostro team per ricevere il gadget fisico!
               </p>
               <div className="h-px bg-gray-200 w-12 mx-auto"></div>
-              <p className="text-gray-400 text-[11px] font-medium uppercase tracking-wider">
-                Rocca Fun Factory <br/>
-                Spielwarenmesse 2026
+              <p className="text-gray-400 text-[10px] font-medium uppercase tracking-wider">
+                Rocca Fun Factory Stand
               </p>
           </div>
         </div>
 
         {/* Bottone di chiusura */}
-        <div className="w-full space-y-4">
+        <div className="w-full">
           <button 
             onClick={onReset}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl shadow-2xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest text-sm"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest text-sm"
           >
             <Home className="w-5 h-5" />
-            <span>Torna alla Home</span>
+            <span>Nuova Foto</span>
           </button>
         </div>
       </div>
