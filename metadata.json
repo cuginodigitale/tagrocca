@@ -1,0 +1,7 @@
+{
+  "name": "Balloon Dog Challenge",
+  "description": "Scatta una foto allo stand, condividila con il nostro tag e vinci un Balloon Dog esclusivo!",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
