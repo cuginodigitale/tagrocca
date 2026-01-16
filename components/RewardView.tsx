@@ -1,19 +1,9 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { PartyPopper, CheckCircle2, ChevronRight } from 'lucide-react';
+import { PartyPopper, CheckCircle2, ChevronRight, Sparkles } from 'lucide-react';
 
 interface RewardViewProps {
   onReset: () => void;
-}
-
-interface ConfettiPiece {
-  id: number;
-  left: string;
-  color: string;
-  delay: string;
-  duration: string;
-  size: string;
-  swayDuration: string;
 }
 
 const COLORS = ['#3b82f6', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6', '#ef4444'];
@@ -22,7 +12,6 @@ const PIECE_COUNT = 60;
 export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   const [showConfetti, setShowConfetti] = useState(false);
 
-  // Generate stable confetti pieces properties
   const confettiPieces = useMemo(() => {
     return Array.from({ length: PIECE_COUNT }).map((_, i) => ({
       id: i,
@@ -37,15 +26,10 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
 
   useEffect(() => {
     setShowConfetti(true);
-    const timer = setTimeout(() => {
-      // Keep them looping or remove them? Let's let them finish their animation
-    }, 10000);
-    return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
-      {/* Confetti Layer */}
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none z-0">
           {confettiPieces.map((p) => (
@@ -66,35 +50,42 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
       )}
 
       <div className="z-10 animate-bounceIn w-full flex flex-col items-center">
-        <div className="mb-10 relative">
-          <div className="w-40 h-40 bg-pink-100 rounded-full flex items-center justify-center relative">
-            <PartyPopper className="w-20 h-20 text-pink-600 animate-pulse" />
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-4 border-pink-500 rounded-full border-dashed animate-[spin_10s_linear_infinite]" />
-        </div>
-
-        <div className="space-y-3 mb-10">
-          <h2 className="text-4xl font-extrabold text-gray-900 leading-tight">
-            Hai Vinto! 🎉
-          </h2>
-          <p className="text-xl text-pink-600 font-bold">
-            Il tuo Balloon Dog ti aspetta.
-          </p>
-          <p className="text-gray-500 max-w-xs mx-auto">
-            Mostra questa schermata allo staff per ricevere il tuo gadget esclusivo.
-          </p>
-        </div>
-
-        <div className="w-full bg-gray-50/80 backdrop-blur-sm p-6 rounded-[2rem] border-2 border-dashed border-gray-200 mb-10 relative shadow-sm">
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-4 text-[10px] font-black tracking-widest text-gray-400 uppercase">
-            Codice Premio
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="text-left">
-              <p className="text-2xl font-mono font-black text-gray-900 tracking-tighter">BALLOON-2024</p>
-              <p className="text-[10px] text-gray-400 uppercase font-bold">Valido solo oggi</p>
+        {/* Gadget Image Placeholder */}
+        <div className="mb-6 relative">
+          <div className="w-44 h-44 bg-gradient-to-br from-blue-50 to-pink-50 rounded-3xl flex items-center justify-center relative shadow-inner border border-white">
+            <div className="flex flex-col items-center animate-pulse">
+               <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-2">
+                 <Sparkles className="w-10 h-10 text-yellow-500" />
+               </div>
+               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Foto Balloon Dog</span>
             </div>
-            <div className="bg-green-500 p-2 rounded-full">
+            {/* Badge */}
+            <div className="absolute -bottom-2 -right-2 bg-yellow-400 text-black text-[10px] font-black px-3 py-1 rounded-lg shadow-lg rotate-12 uppercase">
+              Vinto!
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2 mb-8">
+          <h2 className="text-3xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
+            Complimenti! 🎉
+          </h2>
+          <p className="text-lg text-blue-600 font-bold">
+            Il tuo Balloon Dog è pronto!
+          </p>
+          <p className="text-gray-500 text-sm max-w-xs mx-auto">
+            Mostra questo coupon allo stand <strong>Rocca Fun Factory</strong> per ritirare il gadget.
+          </p>
+        </div>
+
+        <div className="w-full bg-white p-6 rounded-[2rem] border-4 border-blue-600 mb-8 relative shadow-2xl overflow-hidden">
+          <div className="absolute top-0 right-0 w-16 h-16 bg-blue-600 rotate-45 translate-x-8 -translate-y-8"></div>
+          <div className="flex items-center justify-between relative z-10">
+            <div className="text-left">
+              <p className="text-[10px] text-blue-600 font-black uppercase tracking-[0.2em] mb-1">Coupon ID</p>
+              <p className="text-2xl font-mono font-black text-gray-900">ROCCA-FUN-24</p>
+            </div>
+            <div className="bg-blue-600 p-2 rounded-2xl shadow-lg">
               <CheckCircle2 className="w-6 h-6 text-white" />
             </div>
           </div>
@@ -102,18 +93,18 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
 
         <div className="w-full space-y-4">
           <button 
-            className="w-full bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-xl flex items-center justify-center space-x-3 active:scale-95 transition-all"
+            className="w-full bg-gray-900 text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest"
             onClick={() => window.print()}
           >
-            <span>Richiedilo</span>
+            <span>Ritira allo Stand</span>
             <ChevronRight className="w-6 h-6" />
           </button>
           
           <button 
             onClick={onReset}
-            className="w-full text-gray-400 font-bold py-2 text-sm hover:text-gray-600 transition-colors"
+            className="w-full text-gray-400 font-bold py-2 text-xs uppercase tracking-widest hover:text-gray-600 transition-colors"
           >
-            Torna alla Home
+            Nuova Foto
           </button>
         </div>
       </div>

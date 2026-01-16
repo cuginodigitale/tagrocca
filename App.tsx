@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { WelcomeView } from './components/WelcomeView';
 import { CameraView } from './components/CameraView';
 import { PreviewView } from './components/PreviewView';
@@ -26,8 +26,8 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen max-w-md mx-auto bg-white shadow-2xl relative overflow-hidden flex flex-col">
-      {/* Dynamic Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-50" />
+      {/* Top Branding Line */}
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-600 via-pink-500 to-yellow-400 z-50" />
       
       <main className="flex-1 flex flex-col">
         {step === AppStep.WELCOME && (
@@ -52,8 +52,10 @@ const App: React.FC = () => {
       </main>
 
       {/* Footer Branding */}
-      <footer className="p-4 text-center text-xs text-gray-400">
-        © 2024 La Tua Azienda • Evento Stand Gadget
+      <footer className="p-6 text-center">
+        <p className="text-[10px] font-black tracking-[0.3em] text-gray-300 uppercase">
+          Rocca Fun Factory • Event App
+        </p>
       </footer>
     </div>
   );
