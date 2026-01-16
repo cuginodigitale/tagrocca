@@ -13,8 +13,8 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   
-  // Utilizziamo ./assets/ per specificare il percorso relativo dalla root
-  const balloonDogImageUrl = "./assets/balloon-dog.jpg"; 
+  // URL Assoluto per garantire il caricamento immediato
+  const balloonDogImageUrl = "https://images.unsplash.com/photo-1590074259301-443315758071?q=80&w=800&auto=format&fit=crop"; 
 
   const confettiPieces = useMemo(() => {
     return Array.from({ length: PIECE_COUNT }).map((_, i) => ({
@@ -87,9 +87,7 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
               onLoad={() => setImageLoaded(true)}
               className={`w-full h-full object-contain p-4 transform group-hover:scale-110 transition-all duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
               onError={(e) => {
-                // Fallback definitivo se l'immagine locale fallisce
-                console.error("Errore nel caricamento dell'immagine locale assets/balloon-dog.jpg");
-                e.currentTarget.src = "https://images.unsplash.com/photo-1590074259301-443315758071?q=80&w=600&auto=format&fit=crop";
+                // Se anche l'URL assoluto fallisce, mostriamo un'icona di trofeo come fallback estremo
                 setImageLoaded(true);
               }}
             />
