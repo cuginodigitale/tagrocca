@@ -3,6 +3,7 @@ export enum AppStep {
   WELCOME = 'welcome',
   CAMERA = 'camera',
   PREVIEW = 'preview',
+  SHARE = 'share',
   WIN = 'win'
 }
 

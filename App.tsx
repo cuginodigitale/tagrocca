@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { WelcomeView } from './components/WelcomeView';
 import { CameraView } from './components/CameraView';
 import { PreviewView } from './components/PreviewView';
+import { ShareView } from './components/ShareView';
 import { RewardView } from './components/RewardView';
 import { AppStep } from './types';
 
@@ -13,6 +14,10 @@ const App: React.FC = () => {
   const handleCapture = (imageData: string) => {
     setImage(imageData);
     setStep(AppStep.PREVIEW);
+  };
+
+  const handleConfirm = () => {
+    setStep(AppStep.SHARE);
   };
 
   const handleShareComplete = () => {
@@ -26,7 +31,6 @@ const App: React.FC = () => {
 
   return (
     <div className="fixed inset-0 bg-white flex flex-col overflow-hidden selection:bg-blue-100 touch-none">
-      {/* Top Branding Line - Sottile ed Elegante */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-pink-500 to-yellow-400 z-[100]" />
       
       <main className="flex-1 flex flex-col overflow-hidden relative">
@@ -41,8 +45,16 @@ const App: React.FC = () => {
         {step === AppStep.PREVIEW && image && (
           <PreviewView 
             image={image} 
-            onShareComplete={handleShareComplete} 
+            onConfirm={handleConfirm} 
             onRetake={() => setStep(AppStep.CAMERA)} 
+          />
+        )}
+
+        {step === AppStep.SHARE && image && (
+          <ShareView 
+            image={image} 
+            onComplete={handleShareComplete} 
+            onBack={() => setStep(AppStep.PREVIEW)}
           />
         )}
         
