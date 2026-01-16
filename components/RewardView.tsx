@@ -1,13 +1,13 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { PartyPopper, CheckCircle2, ChevronRight, Sparkles } from 'lucide-react';
+import { CheckCircle2, Home, Sparkles, Trophy, Award, Star } from 'lucide-react';
 
 interface RewardViewProps {
   onReset: () => void;
 }
 
-const COLORS = ['#3b82f6', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6', '#ef4444'];
-const PIECE_COUNT = 60;
+const COLORS = ['#FFD700', '#ec4899', '#3b82f6', '#10b981', '#f59e0b'];
+const PIECE_COUNT = 100;
 
 export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -18,9 +18,9 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
       left: `${Math.random() * 100}%`,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       delay: `${Math.random() * 3}s`,
-      duration: `${3 + Math.random() * 4}s`,
-      size: `${5 + Math.random() * 10}px`,
-      swayDuration: `${2 + Math.random() * 2}s`
+      duration: `${4 + Math.random() * 4}s`,
+      size: `${6 + Math.random() * 12}px`,
+      swayDuration: `${2 + Math.random() * 3}s`
     }));
   }, []);
 
@@ -29,7 +29,13 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
+    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden bg-white">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none z-0 overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600 rounded-full blur-[100px]"></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-400 rounded-full blur-[100px]"></div>
+      </div>
+
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none z-0">
           {confettiPieces.map((p) => (
@@ -49,63 +55,100 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
         </div>
       )}
 
-      <div className="z-10 animate-bounceIn w-full flex flex-col items-center">
-        {/* Gadget Image Placeholder */}
-        <div className="mb-6 relative">
-          <div className="w-44 h-44 bg-gradient-to-br from-blue-50 to-pink-50 rounded-3xl flex items-center justify-center relative shadow-inner border border-white">
-            <div className="flex flex-col items-center animate-pulse">
-               <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-2">
-                 <Sparkles className="w-10 h-10 text-yellow-500" />
-               </div>
-               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Foto Balloon Dog</span>
+      <div className="z-10 animate-bounceIn w-full flex flex-col items-center max-w-sm">
+        {/* Success Header */}
+        <div className="mb-6 space-y-2">
+            <div className="flex justify-center space-x-1 mb-2">
+                {[1,2,3].map(i => <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />)}
             </div>
-            {/* Badge */}
-            <div className="absolute -bottom-2 -right-2 bg-yellow-400 text-black text-[10px] font-black px-3 py-1 rounded-lg shadow-lg rotate-12 uppercase">
-              Vinto!
+            <h1 className="text-3xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
+                Complimenti!
+            </h1>
+            <p className="text-xl font-bold text-blue-600">Ecco il tuo Balloon Dog</p>
+        </div>
+
+        {/* Prize Image Visual - Representation of the Gold Balloon Dog */}
+        <div className="mb-10 relative">
+          <div className="w-64 h-64 bg-gradient-to-br from-yellow-300 via-yellow-100 to-yellow-500 rounded-[4rem] flex items-center justify-center relative shadow-[0_30px_60px_rgba(234,179,8,0.4)] border-8 border-white group">
+            
+            {/* Centered stylized Balloon Dog */}
+            <div className="relative transform group-hover:scale-110 transition-transform duration-500">
+               {/* This SVG mimics the shape of the balloon dog from the provided image */}
+               <svg viewBox="0 0 100 100" className="w-48 h-48 drop-shadow-2xl">
+                 <defs>
+                   <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                     <stop offset="0%" style={{stopColor: '#f9e498'}} />
+                     <stop offset="50%" style={{stopColor: '#d4af37'}} />
+                     <stop offset="100%" style={{stopColor: '#b8860b'}} />
+                   </linearGradient>
+                   <filter id="glow">
+                     <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                     <feMerge>
+                       <feMergeNode in="coloredBlur"/>
+                       <feMergeNode in="SourceGraphic"/>
+                     </feMerge>
+                   </filter>
+                 </defs>
+                 {/* Body Parts */}
+                 <ellipse cx="50" cy="55" rx="15" ry="10" fill="url(#gold)" /> {/* Body */}
+                 <ellipse cx="30" cy="40" rx="12" ry="10" fill="url(#gold)" transform="rotate(-30 30 40)" /> {/* Head */}
+                 <circle cx="20" cy="42" r="3" fill="url(#gold)" /> {/* Nose */}
+                 <ellipse cx="38" cy="30" rx="6" ry="12" fill="url(#gold)" transform="rotate(10 38 30)" /> {/* Ear 1 */}
+                 <ellipse cx="32" cy="28" rx="6" ry="12" fill="url(#gold)" transform="rotate(-10 32 28)" /> {/* Ear 2 */}
+                 <ellipse cx="45" cy="72" rx="5" ry="12" fill="url(#gold)" /> {/* Front Leg 1 */}
+                 <ellipse cx="55" cy="72" rx="5" ry="12" fill="url(#gold)" /> {/* Front Leg 2 */}
+                 <ellipse cx="70" cy="65" rx="5" ry="12" fill="url(#gold)" transform="rotate(20 70 65)" /> {/* Back Leg 1 */}
+                 <ellipse cx="78" cy="62" rx="5" ry="12" fill="url(#gold)" transform="rotate(30 78 62)" /> {/* Back Leg 2 */}
+                 <ellipse cx="85" cy="45" rx="8" ry="4" fill="url(#gold)" transform="rotate(-45 85 45)" /> {/* Tail */}
+               </svg>
+              
+              <Sparkles className="absolute -top-6 -right-2 w-10 h-10 text-white animate-pulse" />
+              <div className="absolute -bottom-2 -left-4 bg-gray-900 text-white text-[9px] font-black px-4 py-2 rounded-xl shadow-2xl rotate-[-5deg] uppercase tracking-widest border border-white/20">
+                Gold Edition
+              </div>
             </div>
+          </div>
+          
+          {/* Decorative elements */}
+          <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-yellow-200/30 rounded-full blur-3xl"></div>
+        </div>
+
+        {/* Instructions Block */}
+        <div className="bg-gray-50 border-2 border-gray-100 p-8 rounded-[3rem] w-full mb-10 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4">
+             <Trophy className="w-12 h-12 text-yellow-500/10" />
+          </div>
+          
+          <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest mb-4 flex items-center justify-center space-x-2">
+            <Award className="w-5 h-5 text-blue-600" />
+            <span>Ritira allo stand</span>
+          </h3>
+          
+          <div className="space-y-4">
+              <p className="text-gray-700 font-bold text-lg leading-tight">
+                Mostra la condivisione social al nostro team per ricevere il tuo premio fisico!
+              </p>
+              <div className="h-px bg-gray-200 w-12 mx-auto"></div>
+              <p className="text-gray-400 text-[11px] font-medium uppercase tracking-wider">
+                Siamo allo stand Rocca Fun Factory <br/>
+                Spielwarenmesse 2026
+              </p>
           </div>
         </div>
 
-        <div className="space-y-2 mb-8">
-          <h2 className="text-3xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-            Complimenti! 🎉
-          </h2>
-          <p className="text-lg text-blue-600 font-bold">
-            Il tuo Balloon Dog è pronto!
-          </p>
-          <p className="text-gray-500 text-sm max-w-xs mx-auto">
-            Mostra questo coupon allo stand <strong>Rocca Fun Factory</strong> per ritirare il gadget.
-          </p>
-        </div>
-
-        <div className="w-full bg-white p-6 rounded-[2rem] border-4 border-blue-600 mb-8 relative shadow-2xl overflow-hidden">
-          <div className="absolute top-0 right-0 w-16 h-16 bg-blue-600 rotate-45 translate-x-8 -translate-y-8"></div>
-          <div className="flex items-center justify-between relative z-10">
-            <div className="text-left">
-              <p className="text-[10px] text-blue-600 font-black uppercase tracking-[0.2em] mb-1">Coupon ID</p>
-              <p className="text-2xl font-mono font-black text-gray-900">ROCCA-FUN-24</p>
-            </div>
-            <div className="bg-blue-600 p-2 rounded-2xl shadow-lg">
-              <CheckCircle2 className="w-6 h-6 text-white" />
-            </div>
-          </div>
-        </div>
-
+        {/* Action Buttons */}
         <div className="w-full space-y-4">
           <button 
-            className="w-full bg-gray-900 text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest"
-            onClick={() => window.print()}
+            onClick={onReset}
+            className="w-full bg-gray-900 hover:bg-black text-white font-black py-5 rounded-2xl shadow-2xl flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest text-sm"
           >
-            <span>Ritira allo Stand</span>
-            <ChevronRight className="w-6 h-6" />
+            <Home className="w-5 h-5" />
+            <span>Fatto</span>
           </button>
           
-          <button 
-            onClick={onReset}
-            className="w-full text-gray-400 font-bold py-2 text-xs uppercase tracking-widest hover:text-gray-600 transition-colors"
-          >
-            Nuova Foto
-          </button>
+          <p className="text-blue-600 text-[9px] font-black uppercase tracking-[0.4em] opacity-50">
+            Grazie per aver partecipato!
+          </p>
         </div>
       </div>
     </div>
