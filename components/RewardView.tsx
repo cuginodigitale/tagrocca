@@ -14,7 +14,7 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   
   // URL Assoluto per garantire il caricamento immediato
-  const balloonDogImageUrl = "https://images.unsplash.com/photo-1590074259301-443315758071?q=80&w=800&auto=format&fit=crop"; 
+  const balloonDogImageUrl = "https://roccafunfactory.com/wp-content/uploads/2026/01/balloon-dog.jpg"; 
 
   const confettiPieces = useMemo(() => {
     return Array.from({ length: PIECE_COUNT }).map((_, i) => ({
