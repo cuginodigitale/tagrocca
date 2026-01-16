@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Copy, Facebook, Instagram, ChevronLeft, Check, Share2, Info } from 'lucide-react';
+import { Copy, Facebook, Instagram, ChevronLeft, Check, Share2, ExternalLink } from 'lucide-react';
 
 interface ShareViewProps {
   image: string;
@@ -11,8 +11,9 @@ interface ShareViewProps {
 export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack }) => {
   const [copyStatus, setCopyStatus] = useState(false);
   const companyTag = "@roccafunfactory";
-  const hashtags = "#roccafunfactory #Spielwarenmesse2026";
+  const hashtags = "#roccafunfactory #Spielwarenmesse2026 #GoldenBalloonDog";
   const fullTagString = `${companyTag} ${hashtags}`;
+  const companyUrl = "https://roccafunfactory.com";
   
   const handleCopy = () => {
     navigator.clipboard.writeText(fullTagString);
@@ -20,7 +21,14 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
     setTimeout(() => setCopyStatus(false), 2000);
   };
 
-  const handleSocialShare = async (platform: string) => {
+  const handleFacebookShare = () => {
+    // Metodo sharer link per bypassare il dialog nativo
+    const quote = `Guarda cosa ho vinto allo stand di Rocca Fun Factory! 🎈🐶 Partecipa anche tu! ${fullTagString}`;
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(companyUrl)}&quote=${encodeURIComponent(quote)}`;
+    window.open(fbUrl, '_blank', 'width=600,height=400');
+  };
+
+  const handleInstagramShare = async () => {
     try {
       const response = await fetch(image);
       const blob = await response.blob();
@@ -33,7 +41,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
           text: `Incolla qui i tag: ${fullTagString}`,
         });
       } else {
-        alert(`Per condividere su ${platform}:\n1. Salva la foto\n2. Apri ${platform}\n3. Incolla i tag: ${fullTagString}`);
+        alert(`Per condividere su Instagram:\n1. Salva la foto\n2. Apri Instagram\n3. Incolla i tag: ${fullTagString}`);
       }
     } catch (err) {
       console.error("Share error", err);
@@ -47,7 +55,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
           <ChevronLeft className="w-6 h-6" />
         </button>
         <h2 className="flex-1 text-center font-black text-xs uppercase tracking-[0.2em] text-gray-900 mr-6">
-          Condivisione Premio
+          Condivisione
         </h2>
       </div>
 
@@ -56,9 +64,6 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
           <h3 className="text-xl font-black text-gray-900 leading-tight">
             Usa i nostri <span className="text-blue-600">tag ufficiali</span> <br/>per vincere!
           </h3>
-          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-            Segui questi due semplici passaggi
-          </p>
         </div>
 
         <div className="space-y-3">
@@ -85,27 +90,25 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
         <div className="space-y-3">
           <div className="flex items-center space-x-3">
             <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-sm">2</span>
-            <p className="text-sm font-black text-gray-800 uppercase tracking-tight">Incolla nel tuo Social</p>
+            <p className="text-sm font-black text-gray-800 uppercase tracking-tight">Pubblica sui Social</p>
           </div>
           
           <div className="grid grid-cols-1 gap-3">
-            <button onClick={() => handleSocialShare('Instagram')} className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl text-white active:scale-95 transition-all">
-              <Instagram className="w-6 h-6 mr-3" />
-              <span className="font-black uppercase text-[10px] tracking-widest">Instagram</span>
-              <Share2 className="w-4 h-4 opacity-50 ml-auto" />
+            <button onClick={handleFacebookShare} className="flex items-center justify-between p-4 bg-[#1877F2] rounded-2xl text-white active:scale-95 transition-all">
+              <div className="flex items-center">
+                <Facebook className="w-6 h-6 mr-3" />
+                <span className="font-black uppercase text-[10px] tracking-widest">Posta su Facebook</span>
+              </div>
+              <ExternalLink className="w-4 h-4 opacity-50 ml-auto" />
             </button>
-            <button onClick={() => handleSocialShare('Facebook')} className="flex items-center justify-between p-4 bg-[#1877F2] rounded-2xl text-white active:scale-95 transition-all">
-              <Facebook className="w-6 h-6 mr-3" />
-              <span className="font-black uppercase text-[10px] tracking-widest">Facebook</span>
+            <button onClick={handleInstagramShare} className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl text-white active:scale-95 transition-all">
+              <div className="flex items-center">
+                <Instagram className="w-6 h-6 mr-3" />
+                <span className="font-black uppercase text-[10px] tracking-widest">Apri Instagram</span>
+              </div>
               <Share2 className="w-4 h-4 opacity-50 ml-auto" />
             </button>
           </div>
-        </div>
-
-        <div className="bg-yellow-50 p-4 rounded-2xl border border-yellow-100">
-          <p className="text-[10px] font-bold text-yellow-800 leading-snug text-center italic">
-            "Una volta pubblicato, clicca il tasto qui sotto per ritirare il tuo premio allo stand!"
-          </p>
         </div>
       </div>
 
@@ -114,7 +117,7 @@ export const ShareView: React.FC<ShareViewProps> = ({ image, onComplete, onBack 
           onClick={onComplete}
           className="w-full bg-blue-600 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-100 transition-all active:scale-95 text-lg flex items-center justify-center space-x-4 uppercase tracking-[0.2em]"
         >
-          <span>Fatto! Ho Condiviso</span>
+          <span>Fatto! Vedi Premio</span>
         </button>
       </div>
     </div>

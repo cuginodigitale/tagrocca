@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { Home, Sparkles, Loader2, Share2, Star, Info } from 'lucide-react';
+import { Home, Sparkles, Loader2, Share2, Facebook, Star, Info, ExternalLink } from 'lucide-react';
 
 interface RewardViewProps {
   onReset: () => void;
@@ -14,9 +14,11 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset, capturedImage }
   const [showConfetti, setShowConfetti] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   
-  // URL Ufficiale del Balloon Dog fornito dall'utente
+  // URL Ufficiale del Balloon Dog e del sito
   const balloonDogImageUrl = "https://roccafunfactory.com/wp-content/uploads/2026/01/balloon-dog.jpg"; 
+  const companyUrl = "https://roccafunfactory.com";
   const tags = "@roccafunfactory #roccafunfactory #Spielwarenmesse2026 #GoldenBalloonDog";
+  const shareQuote = `Guarda cosa ho vinto allo stand di Rocca Fun Factory! Un Golden Balloon Dog! 🎈🐶 Partecipa anche tu! ${tags}`;
 
   const confettiPieces = useMemo(() => {
     return Array.from({ length: PIECE_COUNT }).map((_, i) => ({
@@ -34,7 +36,14 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset, capturedImage }
     setShowConfetti(true);
   }, []);
 
-  const handleShareWithPhoto = async () => {
+  const handleFacebookShare = () => {
+    // Metodo Link per bypassare il menu di sistema nativo (stile Amazon)
+    // Usiamo sharer.php che accetta URL e Quote (testo precompilato)
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(companyUrl)}&quote=${encodeURIComponent(shareQuote)}`;
+    window.open(fbUrl, '_blank', 'width=600,height=400');
+  };
+
+  const handleNativeShare = async () => {
     try {
       const response = await fetch(capturedImage);
       const blob = await response.blob();
@@ -114,17 +123,28 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset, capturedImage }
         <div className="bg-blue-50 border-2 border-blue-100 p-5 rounded-[1.5rem] w-full mb-6 flex items-start space-x-3 text-left">
           <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
           <p className="font-bold text-[11px] leading-relaxed text-blue-900 uppercase tracking-tight">
-            Condividi la tua foto ora e mostra il post al nostro team allo stand per ricevere il Golden Balloon Dog fisico!
+            Condividi ora per ricevere il Golden Balloon Dog fisico allo stand!
           </p>
         </div>
 
         <div className="w-full space-y-3">
+          {/* Pulsante Facebook con link diretto che bypassa il menu di sistema */}
           <button 
-            onClick={handleShareWithPhoto}
-            className="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center space-x-4 active:scale-95 transition-all uppercase tracking-widest text-base"
+            onClick={handleFacebookShare}
+            className="w-full bg-[#1877F2] text-white font-black py-4 rounded-2xl shadow-lg flex items-center justify-center space-x-3 active:scale-95 transition-all uppercase tracking-widest text-sm"
           >
-            <Share2 className="w-6 h-6" />
-            <span>Condividi la Foto</span>
+            <Facebook className="w-5 h-5" />
+            <span>Posta su Facebook</span>
+            <ExternalLink className="w-3 h-3 opacity-50" />
+          </button>
+
+          {/* Pulsante Nativo per la FOTO reale (utile se vogliono postare l'immagine scattata) */}
+          <button 
+            onClick={handleNativeShare}
+            className="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-xl flex items-center justify-center space-x-4 active:scale-95 transition-all uppercase tracking-widest text-sm"
+          >
+            <Share2 className="w-5 h-5" />
+            <span>Invia Foto</span>
           </button>
 
           <p className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em] pt-2">
@@ -133,7 +153,7 @@ export const RewardView: React.FC<RewardViewProps> = ({ onReset, capturedImage }
           
           <button 
             onClick={onReset}
-            className="w-full text-gray-400 font-black py-4 uppercase text-[10px] tracking-[0.3em] flex items-center justify-center space-x-2"
+            className="w-full text-gray-400 font-black py-3 uppercase text-[10px] tracking-[0.3em] flex items-center justify-center space-x-2"
           >
             <Home className="w-3 h-3" />
             <span>Torna alla Home</span>
