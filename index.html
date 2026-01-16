@@ -3,14 +3,28 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Balloon Dog Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus+Jakarta+Sans', sans-serif;
-            background-color: #f8fafc;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Blocca scrolling esterno */
+            height: 100vh;
+            height: -webkit-fill-available;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            height: -webkit-fill-available;
+        }
+        
+        #root {
+            height: 100%;
         }
         
         @keyframes confetti-fall {
@@ -32,23 +46,25 @@
             z-index: 100;
         }
 
-        /* Animazioni di ingresso */
         .animate-fadeIn {
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: fadeIn 0.4s ease-out forwards;
         }
         .animate-bounceIn {
-            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            animation: bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 1; transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); }
+            0% { opacity: 0; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Ottimizzazione pulsanti per touch */
+        button:active {
+            transform: scale(0.97);
         }
     </style>
 <script type="importmap">
@@ -63,9 +79,8 @@
 }
 </script>
 </head>
-<body class="overflow-x-hidden">
+<body>
     <div id="root"></div>
-    <!-- CRUCIALE: Questo script carica l'applicazione React -->
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>

@@ -25,11 +25,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-md mx-auto bg-white shadow-2xl relative overflow-hidden flex flex-col">
-      {/* Top Branding Line */}
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-600 via-pink-500 to-yellow-400 z-50" />
+    <div className="fixed inset-0 bg-white flex flex-col overflow-hidden selection:bg-blue-100 touch-none">
+      {/* Top Branding Line - Sottile ed Elegante */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-pink-500 to-yellow-400 z-[100]" />
       
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col overflow-hidden relative">
         {step === AppStep.WELCOME && (
           <WelcomeView onStart={() => setStep(AppStep.CAMERA)} />
         )}
@@ -50,13 +50,6 @@ const App: React.FC = () => {
           <RewardView onReset={handleReset} />
         )}
       </main>
-
-      {/* Footer Branding */}
-      <footer className="p-6 text-center">
-        <p className="text-[10px] font-black tracking-[0.3em] text-gray-300 uppercase">
-          Rocca Fun Factory • Event App
-        </p>
-      </footer>
     </div>
   );
 };
