@@ -15,14 +15,22 @@ export const SocialShareView: React.FC<SocialShareViewProps> = ({ image, onCompl
       const blob = await response.blob();
       const file = new File([blob], 'rocca-fun-factory.jpg', { type: 'image/jpeg' });
 
+      // Navigator.share è il modo migliore per aprire direttamente il selettore di app native (incluso Instagram/FB)
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
           title: 'Rocca Fun Factory Challenge',
-          text: `Incolla qui i tag che hai appena copiato!`,
+          text: `Incolla qui i tag ufficiali!`,
         });
       } else {
-        alert(`Per condividere su ${platform}:\n1. Salva la foto\n2. Apri ${platform}\n3. Crea un post e INCOLLA i tag ufficiali.`);
+        // Fallback per desktop o browser limitati
+        if (platform === 'Instagram') {
+          window.open('instagram://camera', '_blank');
+          setTimeout(() => window.open('https://www.instagram.com/', '_blank'), 500);
+        } else if (platform === 'Facebook') {
+          window.open('fb://facewebmodal/f?href=https://www.facebook.com/', '_blank');
+          setTimeout(() => window.open('https://www.facebook.com/', '_blank'), 500);
+        }
       }
     } catch (err) {
       console.error("Share error", err);
@@ -30,62 +38,57 @@ export const SocialShareView: React.FC<SocialShareViewProps> = ({ image, onCompl
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-white animate-fadeIn p-8">
-      <div className="flex-1 flex flex-col items-center justify-center space-y-8">
-        <div className="bg-pink-50 p-6 rounded-[2.5rem] relative">
-          <Share2 className="w-12 h-12 text-pink-500" />
-          <div className="absolute -top-2 -right-2 bg-pink-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Step 3</div>
+    <div className="flex-1 flex flex-col bg-white animate-fadeIn p-6">
+      <div className="flex-1 flex flex-col items-center justify-center space-y-6">
+        <div className="bg-pink-50 p-5 rounded-[2rem] relative">
+          <Share2 className="w-10 h-10 text-pink-500" />
+          <div className="absolute -top-2 -right-2 bg-pink-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest">Step 3</div>
         </div>
 
-        <div className="text-center space-y-3">
-          <h2 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Condividi e Incolla</h2>
-          <p className="text-sm font-bold text-gray-400 leading-relaxed max-w-[240px] mx-auto">
-            Scegli il tuo social preferito, carica la foto e <span className="text-blue-600">incolla i tag</span> nella descrizione.
+        <div className="text-center space-y-2">
+          <h2 className="text-xl font-black text-gray-900 leading-tight uppercase tracking-tight">Condividi ora</h2>
+          <p className="text-xs font-bold text-gray-400 leading-relaxed max-w-[220px] mx-auto">
+            Scegli il social e <span className="text-blue-600">incolla i tag</span>.
           </p>
         </div>
 
-        <div className="w-full grid grid-cols-1 gap-4">
+        {/* Pulsanti in linea per risparmiare spazio */}
+        <div className="w-full flex flex-row gap-3">
           <button 
             onClick={() => handleShare('Instagram')}
-            className="w-full flex items-center justify-between p-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-[2rem] text-white shadow-xl shadow-pink-100 active:scale-95 transition-all"
+            className="flex-1 flex flex-col items-center justify-center p-4 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 rounded-2xl text-white shadow-lg shadow-pink-100 active:scale-95 transition-all"
           >
-            <div className="flex items-center space-x-4">
-              <Instagram className="w-7 h-7" />
-              <span className="font-black uppercase text-xs tracking-[0.2em]">Instagram</span>
-            </div>
-            <Sparkles className="w-5 h-5 opacity-50" />
+            <Instagram className="w-6 h-6 mb-2" />
+            <span className="font-black uppercase text-[9px] tracking-widest">Instagram</span>
           </button>
           
           <button 
             onClick={() => handleShare('Facebook')}
-            className="w-full flex items-center justify-between p-6 bg-[#1877F2] rounded-[2rem] text-white shadow-xl shadow-blue-100 active:scale-95 transition-all"
+            className="flex-1 flex flex-col items-center justify-center p-4 bg-[#1877F2] rounded-2xl text-white shadow-lg shadow-blue-100 active:scale-95 transition-all"
           >
-            <div className="flex items-center space-x-4">
-              <Facebook className="w-7 h-7" />
-              <span className="font-black uppercase text-xs tracking-[0.2em]">Facebook</span>
-            </div>
-            <Sparkles className="w-5 h-5 opacity-50" />
+            <Facebook className="w-6 h-6 mb-2" />
+            <span className="font-black uppercase text-[9px] tracking-widest">Facebook</span>
           </button>
         </div>
 
-        <div className="bg-blue-50 p-5 rounded-[1.5rem] border border-blue-100 flex items-start space-x-4">
-          <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
-          <p className="text-[10px] font-bold text-blue-800 leading-relaxed uppercase tracking-tight">
-            Ricorda di incollare i tag che hai copiato nello step precedente per rendere valida la partecipazione!
+        <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100 flex items-start space-x-3">
+          <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+          <p className="text-[9px] font-bold text-blue-800 leading-tight uppercase tracking-tight">
+            Ricorda di incollare i tag copiati per ritirare il premio!
           </p>
         </div>
       </div>
 
-      <div className="space-y-4 pt-8">
+      <div className="space-y-3 pt-6">
         <button 
           onClick={onComplete}
-          className="w-full bg-gray-900 text-white font-black py-6 rounded-[2rem] shadow-2xl transition-all active:scale-95 text-lg flex items-center justify-center space-x-4 uppercase tracking-[0.2em]"
+          className="w-full bg-gray-900 text-white font-black py-4 rounded-2xl shadow-xl transition-all active:scale-95 text-base flex items-center justify-center space-x-3 uppercase tracking-widest"
         >
-          <span>Fatto! Ho Postato</span>
+          <span>Ho Condiviso!</span>
         </button>
         <button 
           onClick={onBack}
-          className="w-full text-gray-300 font-black py-2 uppercase text-[10px] tracking-widest flex items-center justify-center space-x-2"
+          className="w-full text-gray-300 font-black py-2 uppercase text-[9px] tracking-widest flex items-center justify-center space-x-2"
         >
           <ChevronLeft className="w-3 h-3" />
           <span>Torna ai tag</span>
